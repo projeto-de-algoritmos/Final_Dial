@@ -1,8 +1,5 @@
 # Dial
 
-**Número da Lista**: X<br>
-**Conteúdo da Disciplina**: XXXXXXXXXX<br>
-
 ## Alunos
 |Matrícula | Aluno |
 | -- | -- |
@@ -16,9 +13,12 @@ Implementação do algoritmo de djkstra com simples buckets(tambem chamado de di
 Adicione 3 ou mais screenshots do projeto em funcionamento.
 
 ## Instalação 
-**Linguagem**: xxxxxx<br>
-**Framework**: (caso exista)<br>
-Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
+**Linguagem**: c++<br>
+
+para rodar:
+
+    g++ -std=c++17 dial.cpp -o dial
+    ./dial
 
 
 ## Referencia
