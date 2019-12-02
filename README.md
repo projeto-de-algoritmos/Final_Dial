@@ -10,7 +10,8 @@
 Implementação do algoritmo de djkstra com simples buckets(tambem chamado de dial), é uma otmização do algoritmo de djkstra quando o peso das arestas são pequenos
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+
+![codigo rodando](graphfinal.png)
 
 ## Instalação 
 **Linguagem**: c++<br>

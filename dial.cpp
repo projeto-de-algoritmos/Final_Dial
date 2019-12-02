@@ -19,7 +19,7 @@ public:
     void addEdge(int u, int v, int w); 
   
     // prints shortest path from s 
-    void shortestPath(int s, int W); 
+    void shortestPath(int s,int dest, int W); 
 }; 
   
 // Allocates memory for adjacency list 
@@ -35,10 +35,10 @@ void Graph::addEdge(int u, int v, int w)
     adj[u].push_back(make_pair(v, w)); 
     adj[v].push_back(make_pair(u, w)); 
 } 
-  
+
 // Prints shortest paths from src to all other vertices. 
 // W is the maximum weight of an edge 
-void Graph::shortestPath(int src, int W) 
+void Graph::shortestPath(int src,int dest, int W) 
 { 
     /* With each distance, iterator to that vertex in 
        its bucket is stored so that vertex can be deleted 
@@ -46,10 +46,15 @@ void Graph::shortestPath(int src, int W)
     dist[i].first = distance of ith vertex from src vertex 
     dits[i].second = iterator to vertex i in bucket number */
     vector<pair<int, list<int>::iterator> > dist(V); 
-  
+    
+    //vector to predict path
+    vector<int> pred(V);
+
     // Initialize all distances as infinite (INF) 
-    for (int i = 0; i < V; i++) 
+    for (int i = 0; i < V; i++){ 
         dist[i].first = INF; 
+        pred[i] = -1;
+    }
   
     // Create buckets B[]. 
     // B[i] keep vertex of distance label i 
@@ -57,8 +62,9 @@ void Graph::shortestPath(int src, int W)
   
     B[0].push_back(src); 
     dist[src].first = 0; 
-  
-    // 
+    pred[src] = 0;
+
+
     int idx = 0; 
     while (1) 
     { 
@@ -84,7 +90,7 @@ void Graph::shortestPath(int src, int W)
   
             int du = dist[u].first; 
             int dv = dist[v].first; 
-  
+
             // If there is shorted path to v through u. 
             if (dv > du + weight) 
             { 
@@ -97,7 +103,10 @@ void Graph::shortestPath(int src, int W)
                 //  updating the distance 
                 dist[v].first = du + weight; 
                 dv = dist[v].first; 
-  
+
+                // v is before u in the short path
+                pred[v] = u;
+
                 // pushing vertex v into updated distance's bucket 
                 B[dv].push_front(v); 
   
@@ -111,15 +120,45 @@ void Graph::shortestPath(int src, int W)
     printf("Vertex   Distance from Source\n"); 
     for (int i = 0; i < V; ++i) 
         printf("%d     %d\n", i, dist[i].first); 
+    
+    vector<int> path;
+    auto p = dest;
+
+    while (p != src) {
+        path.push_back(p);
+        p = pred[p];
+    }
+
+    path.push_back(src);
+    reverse(path.begin(), path.end());
+
+    cout << "\npath:" << endl;
+    for (int i = 0; i < path.size(); i++)
+        cout << path[i] << (i + 1 == path.size() ? "\n" : " -> ");
 } 
   
 // Driver program to test methods of graph class 
 int main() 
-{ 
-    // create the graph given in above fugure 
-    int V = 9; 
+{  
+    int V,A,u,v,w; // = 9; 
+    srand (time(NULL));
+    cout << "insert number of nodes and edge" << endl;
+    cin >> V >> A;
     Graph g(V); 
-  
+    cout << "your graph:" << endl;
+    for(int i = 0 ;i<A;i++ ){
+        u = rand() % V;
+        v = rand() % V;
+        w = rand() % A;
+        g.addEdge(u,v,w);
+        
+        cout <<"||"<<u <<"---"<<v;
+    }
+    cout << endl;
+    cout << "insert source and destiny" << endl;
+    int src,dest;
+    cin >> src >> dest;
+    /*
     //  making above shown graph 
     g.addEdge(0, 1, 4); 
     g.addEdge(0, 7, 8); 
@@ -135,9 +174,9 @@ int main()
     g.addEdge(6, 7, 1); 
     g.addEdge(6, 8, 6); 
     g.addEdge(7, 8, 7); 
-  
+    */
     //  maximum weighted edge - 14 
-    g.shortestPath(0, 14); 
+    g.shortestPath(src,dest, A); 
   
     return 0; 
 } 
